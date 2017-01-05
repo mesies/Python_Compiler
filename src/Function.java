@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Functions are compared based on name and signature
- *
+ * returnType = {void , str , int}
  */
 
 public class Function {
@@ -10,15 +10,18 @@ public class Function {
 	String returnType = "void";
 	Signature signature = new Signature();
 	
-	
-	
 	public Function(String name, String returnType, ArrayList<String> signature) {
 		super();
 		this.name = name;
 		this.returnType = returnType;
 		this.signature = new Signature(name,signature.size());
 	}
-	
+	public Function(String name, String returnType, Signature signature) {
+		super();
+		this.name = name;
+		this.returnType = returnType;
+		this.signature = signature;
+	}
 	public String getName() {
 		return name;
 	}

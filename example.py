@@ -1,4 +1,9 @@
-def x(x=0,aa=1):
+def x(x='kappalord',aa=1):
+	aa = 'keppo'
+	return kappa
+
+def x(x='kappalord',aa=1):
+	aa = 'keppo'
 	return kappa
 
 x = 2

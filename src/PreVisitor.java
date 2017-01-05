@@ -4,11 +4,11 @@ import java.util.*;
 
 public class PreVisitor extends DepthFirstAdapter 
 {
-	private Hashtable symtable;	
+	private SymbolTable symtable;	
 
 	public PreVisitor() 
 	{
-		this.symtable = new Hashtable();
+		this.symtable = new SymbolTable();
 	}
 
 //	public void inASfuncStatement(ASfuncStatement node) 
@@ -24,21 +24,40 @@ public class PreVisitor extends DepthFirstAdapter
 //			symtable.put(fName, node);
 //		}
 //	}
-    public void inAIdentifierExpression(AIdentifierExpression node)
-    {
-    	AIdIdentifier node2 = (AIdIdentifier)node.getIdentifier();
-		int line = ((TId) node2.getId()).getLine();
-
-    	System.out.println(node.parent()+String.valueOf(line));
-    }
-    public void inAIdIdentifier(AIdIdentifier node)
-    {
-    	System.out.println(node.toString());
-    	int line = ((TId)node.getId()).getLine();
-    }
+	public void inAAssigneqStatement(AAssigneqStatement node){
+		
+	}
+    
+    Signature thisFunc;
+    int lineNo;
     public void inAFunctionCommands(AFunctionCommands node){
-    	log(node.getIdentifier().toString());
-    	log("Arg"+node.getArgument().toString());
+    	
+    	AIdIdentifier idNode  = (AIdIdentifier) node.getIdentifier();
+    	String nameOfFunction = idNode.getId().getText().trim(); 
+    	lineNo = idNode.getId().getLine();
+    	LinkedList args = node.getArgument();
+    	int noOfArgs = args.size();
+    	thisFunc = new Signature(nameOfFunction,noOfArgs);
+    	
+    	//
+    	//
+    	
+    }
+    public void inAReturnStatement(AReturnStatement node){
+    	String returnType = "void";
+    	if (thisFunc.equals(null)) throw new InputMismatchException("This shouldnt happen , return node was visited first");
+    	AIdentifierExpression idNode  = ((AIdentifierExpression) node.getExpression());
+    	AIdIdentifier idNode2  = (AIdIdentifier) idNode.getIdentifier();
+    	String returnThing = idNode2.getId().getText();
+    	if (returnThing.contains("'")) returnType = "str";
+    	else if (returnThing.matches("[0-9]*")) returnThing = "int";
+    	//Add the function in SymbolTable
+    	try {
+    	symtable.addFunc(thisFunc, new Function(thisFunc.getName(), returnType, thisFunc));
+    	}
+    	catch (InputMismatchException e) {
+    		log("ERROR : This Function has already been declared" ,(lineNo));
+    	}
     }
 
 
@@ -46,4 +65,8 @@ public class PreVisitor extends DepthFirstAdapter
 public static void log(Object o){
 	System.out.println( o.toString());
 }
+public static void log(String ErrMessage,int line){
+	System.err.println(ErrMessage+" LINE :: " + String.valueOf(line));
+}
+
 }

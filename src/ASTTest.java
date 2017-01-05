@@ -19,7 +19,7 @@ public class ASTTest
       Start ast = parser.parse();
 
       ast.apply(new ASTPrinter());
-//      ast.apply(new PreVisitor());
+      ast.apply(new PreVisitor());
 //      System.out.println(ast);
     }
     catch (Exception e)
