@@ -1,0 +1,67 @@
+Package minipython;
+
+Helpers
+	digit = ['0' .. '9'];
+	letter = ['a' .. 'z']|['A' .. 'Z']; 
+	cr = 13; 
+	lf = 10;
+	all = [0..127]; 
+	eol = lf | cr | cr lf ;
+	not_eol = [all - [cr + lf]]; 
+
+Tokens
+	tab = 9;
+	plus = '+';
+	minus = '-';
+	mult = '*';
+	div = '/';
+	eq = '=';
+	l_par = '(';
+	r_par = ')';
+	comma=',';
+	if = 'if';
+	print = 'print';
+	less = '< ';
+	great = '> ';
+	true = 'true';
+	semi = ':';
+	false = 'false';
+	else = 'else';
+	quote = '"';
+	def='def';
+	blank = (' ' | lf | cr);
+	line_comment = '#' not_eol* eol; 
+	number = digit+;
+	id = letter (letter | digit)*;
+
+Ignored Tokens
+	blank, line_comment;
+	
+Productions
+	programme 			= commands*{-> New programme( [commands] ) };
+	commands 			={stat} statement {-> New commands.stat( statement ) }|
+						{expr}expression{-> New commands.expr(expression.exp ) };
+	statement			={sfunc}tab* def id l_par r_par semi statement{-> New statement.sfunc(id, statement)}|
+						{assign}tab* id eq expression {-> New statement.assign(id, expression.exp) } |
+						{print}tab* print expression{-> New statement.print( expression.exp) };
+	expression{->exp} 	= {multiplication} multiplication {->multiplication.exp}|
+						{addition} expression plus multiplication {-> New exp.plus(expression.exp, multiplication.exp)} ;
+	multiplication{->exp}= {something} something{->something.exp} |
+						{multiplication} multiplication mult something {-> New exp.mult(multiplication.exp, something.exp)} ;
+	something{->exp}	={numb}number{-> New exp.number(number)}|
+						{par} l_par expression r_par{->expression.exp};
+						
+						boolean ={true} true {-> New boolean.true()} | {false} false {-> New boolean.false()};
+
+Abstract Syntax Tree
+	programme 		= 	commands*;
+	commands 		=	{stat} statement|
+							{expr}exp;
+	statement		=	{sfunc}id statement|
+							{assign}id exp |
+							{print}exp;
+	exp 			= 		{plus}   [l]:exp [r]:exp |
+							{mult}   [l]:exp [r]:exp |
+							{number} number;
+	boolean ={true} |
+		 {false};
