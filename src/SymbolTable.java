@@ -32,4 +32,13 @@ public class SymbolTable {
 	public Hashtable<Signature, Function> getFunc() {
 		return func;
 	}
+	public boolean containVariable(String nameOfVal){
+		return (var.containsKey(nameOfVal));
+	}
+	public boolean containsFunction(String nameOfFunc,int noOfArgs){
+		return (func.containsKey(new Signature(nameOfFunc,noOfArgs)));
+	}
+	public boolean containsFunction(Signature s){
+		return containsFunction(s.getName(), s.getNoOfArguments());
+	}
 }

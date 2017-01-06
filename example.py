@@ -9,10 +9,10 @@ def x(x='kappalord',aa=1):
 x = 2
 
 print x + x
-
+x = wow
 x -= 1
 x /= 2
-
+u = x
 u = 1.0
 d = 'String'
 myList = ['apple' , 'windows' ,'BSD']

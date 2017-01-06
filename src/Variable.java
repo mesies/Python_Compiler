@@ -2,7 +2,7 @@ import java.util.InputMismatchException;
 
 /**
  * Variables are compared based on name 
- *
+ * Type = ['void','int','str','list']
  */
 public class Variable {
 	String name = "null";
@@ -11,7 +11,7 @@ public class Variable {
 		
 	}
 
-	public Variable(String name, String type, String value) {
+	public Variable(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}
