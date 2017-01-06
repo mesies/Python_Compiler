@@ -6,7 +6,6 @@ import java.util.InputMismatchException;
  * func -> Signature of Function(name , numbOfArguments) , Function Object(name , signature ,return type)
  */
 public class SymbolTable {
-	//Store variables
 	Hashtable<String,Variable> var;
 	//Store Functions
 	Hashtable<Signature, Function> func;

@@ -1,0 +1,11 @@
+/ASTPrinter.class
+/ASTTest.class
+/Function.class
+/PostVisitor.class
+/PreVisitor.class
+/Signature.class
+/SymbolTable.class
+/Variable.class
+/lib/
+/minipython/
+/sablecc.bat
