@@ -8,7 +8,7 @@ def x(x='kappalord',aa=1):
 
 x = 2
 
-print x + x
+print y()
 x = wow
 x -= 1
 x /= 2

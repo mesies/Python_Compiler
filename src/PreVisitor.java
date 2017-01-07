@@ -84,6 +84,19 @@ public class PreVisitor extends DepthFirstAdapter
 		//
 
 	}
+	public void inAFuncallFuncall(AFuncallFuncall node){
+		AIdIdentifier idNode  = (AIdIdentifier) node.getIdentifier();
+		String nameOfFunction = idNode.getId().getText().trim(); 
+		lineNo = idNode.getId().getLine();
+		AFuncalltFuncallt args = (AFuncalltFuncallt) node.getFuncallt();
+		AArglistArglist AArgs = (AArglistArglist) args.getArglist();
+		if (AArgs == null) thisFunc = new Signature(nameOfFunction,0);
+		else{
+			thisFunc = new Signature(nameOfFunction,1 + AArgs.getTemp4().size());
+		}
+		if(!symtable.containsFunction(thisFunc)) log("This table does not contain this function",lineNo);
+	}
+	
 	public void inAReturnStatement(AReturnStatement node){
 		String returnType = "void";
 		if (thisFunc.equals(null)) throw new InputMismatchException("This shouldnt happen , return node was visited first");
