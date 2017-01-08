@@ -7,12 +7,12 @@ def x(x='kappalord',aa=1):
 	return kappa
 
 x = 2
-
+here = (3*3)+1*3*4+'string'
 print y()
 x = wow
-x -= 1
+x -=  y
 x /= 2
-u = x
+u = x + 3
 u = 1.0
 d = 'String'
 myList = ['apple' , 'windows' ,'BSD']

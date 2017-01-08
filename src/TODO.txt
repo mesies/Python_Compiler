@@ -1,0 +1,5 @@
+TODO
+	i)Arithmetics AMultiplicationExpression , AAdditionExpression all values must be  instance of ANumbValue kai ta id na yparxoun
+	ii)AForStatementStatement to deutero identifier prepei na nai type 'list' to prwto id na mpei sto symbol table
+	iii)Elegxo se comparison an yparxoun ta Id
+	iv)Na ckeckarw to AAsignmeq x -= 2 + y
