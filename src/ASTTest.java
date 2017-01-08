@@ -17,8 +17,8 @@ public class ASTTest
         new FileReader("example.py"), 1024)));
 
       Start ast = parser.parse();
-      PreVisitor p = new PreVisitor();
       ast.apply(new ASTPrinter());
+      PreVisitor p = new PreVisitor();
       ast.apply(p);
       ast.apply(new PostVisitor(p.getSymTable()));
       

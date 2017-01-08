@@ -8,6 +8,7 @@ public class PreVisitor extends DepthFirstAdapter
 
 	public PreVisitor() 
 	{
+		System.out.println("------------ Previsitor -------");
 		this.symtable = new SymbolTable();
 	}
 	
@@ -55,12 +56,22 @@ public class PreVisitor extends DepthFirstAdapter
 			AIdIdentifier node4 =(AIdIdentifier) node2.getIdentifier();
 			String nameOfVal = node4.getId().getText().trim();
 			int line = node4.getId().getLine();
+			if(!symtable.containVariable(nameOfVal)){
+				log("ERROR : Variable " + nameOfVal + " mentioned on if statement id undefined", line);
+			}
 		}
+		
 		if (node.getExp2() instanceof AIdentifierExpression){
-			AIdentifierExpression node3 = (AIdentifierExpression)node.getExp1();
-		}
+			AIdentifierExpression node2 = (AIdentifierExpression)node.getExp2();
+			AIdIdentifier node4 =(AIdIdentifier) node2.getIdentifier();
+			String nameOfVal = node4.getId().getText().trim();
+			int line = node4.getId().getLine();
+			if(!symtable.containVariable(nameOfVal)){
+				log("ERROR : Variable " + nameOfVal + " mentioned on if statement id undefined", line);
+			}
+		}	
 	}
-
+	
 	Signature thisFunc;
 	int lineNo;
 	public void inAFunctionCommands(AFunctionCommands node){
@@ -73,7 +84,7 @@ public class PreVisitor extends DepthFirstAdapter
 		thisFunc = new Signature(nameOfFunction,noOfArgs);
 
 		//
-		//
+		//mallon thes na to kaneis add sto symbol table
 
 	}
 	
@@ -83,10 +94,14 @@ public class PreVisitor extends DepthFirstAdapter
 		if (thisFunc.equals(null)) throw new InputMismatchException("This shouldnt happen , return node was visited first");
 		AIdentifierExpression idNode  = ((AIdentifierExpression) node.getExpression());
 		AIdIdentifier idNode2  = (AIdIdentifier) idNode.getIdentifier();
-		String returnThing = idNode2.getId().getText();
+		String returnThing = idNode2.getId().getText();		//to onoma tou id pou epistrefei
 		if (returnThing.contains("'")) returnType = "str";
 		else if (returnThing.matches("[0-9]*")) returnThing = "int";
 		else if (returnThing.matches("\\[")) returnThing = "list";
+		else if(symtable.containVariable(returnThing)){
+			returnThing = symtable.getVar().get(returnThing).getType();
+		}
+		
 
 		//Add the function in SymbolTable
 		try {
@@ -129,7 +144,25 @@ public class PreVisitor extends DepthFirstAdapter
 			
 		}
 	}
+	
+	public void inAPrintStatement(APrintStatement node){
+		if(node.getExpression() instanceof AIdentifierExpression){
+			AIdentifierExpression node1 = (AIdentifierExpression)node.getExpression();
+			AIdIdentifier node2 = (AIdIdentifier)node1.getIdentifier();
+			if(!symtable.containVariable(node2.getId().getText().trim())) log("ERROR : Variable " + node2.getId().getText().trim() + " is undefined", node2.getId().getLine());
+		}
+	}
 
+	public void inAPpxExpression(APpxExpression node){
+		AIdIdentifier node1 = (AIdIdentifier)node.getIdentifier();
+		if(!symtable.containVariable(node1.getId().getText().trim())) log("ERROR : Variable " + node1.getId().getText().trim() + " is undefined", node1.getId().getLine());
+	}
+	
+
+	public void inAXppExpression(AXppExpression node){
+		AIdIdentifier node1 = (AIdIdentifier)node.getIdentifier();
+		if(!symtable.containVariable(node1.getId().getText().trim())) log("ERROR : Variable " + node1.getId().getText().trim() + " is undefined", node1.getId().getLine());
+	}
 	public static void log(Object o){
 		System.out.println( o.toString());
 	}
