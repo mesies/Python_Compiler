@@ -1,6 +1,5 @@
 import minipython.analysis.*;
 import minipython.node.*;
-import java.util.*;
 
 public class PostVisitor extends DepthFirstAdapter 
 {
@@ -28,6 +27,7 @@ public class PostVisitor extends DepthFirstAdapter
 	}
 	
 	public void inAAdditionExpression(AAdditionExpression node){
+		try{
 		if(node.getLeft() instanceof AValueExpression){
 			AValueExpression node1 = (AValueExpression)node.getLeft();
 			if (node1.getValue() instanceof AStrValue){
@@ -38,8 +38,9 @@ public class PostVisitor extends DepthFirstAdapter
 			AIdIdentifier node2 = (AIdIdentifier)node1.getIdentifier();
 			String namVal = node2.getId().getText().trim();
 			if(!symtable.containVariable(namVal)){
-				log("ERROR : Variable " + namVal + " mentionded on the left side of addition is undefined Line :: " , node2.getId().getLine());
-			}
+				log("ERROR : Variable " + namVal + " mentionded on the left side of addition is undefined" , node2.getId().getLine());
+			}else
+			if(!symtable.getVar().get(node2.getId().getText().trim()).getType().equalsIgnoreCase("int"))log("ERROR : Variable " + namVal + " mentionded on the left side of addition has a wrong type " , node2.getId().getLine());
 		}
 		
 		if(node.getRight() instanceof AValueExpression){
@@ -52,8 +53,12 @@ public class PostVisitor extends DepthFirstAdapter
 			AIdIdentifier node2 = (AIdIdentifier)node1.getIdentifier();
 			String namVal = node2.getId().getText().trim();
 			if(!symtable.containVariable(namVal)){
-				log("ERROR : Variable " + namVal + " mentionded on the right side of addition is undefined Line :: " , node2.getId().getLine());
+				log("ERROR : Variable " + namVal + " mentionded on the right side of addition is undefined" , node2.getId().getLine());
 			}
+			if(!symtable.getVar().get(node2.getId().getText().trim()).getType().equalsIgnoreCase("int"))log("ERROR : Variable " + namVal + " mentionded on the left side of addition has a wrong type " , node2.getId().getLine());
+		}
+		}catch(ClassCastException e){
+			e.printStackTrace();
 		}
 			
 		
@@ -71,8 +76,9 @@ public class PostVisitor extends DepthFirstAdapter
 			AIdIdentifier node2 = (AIdIdentifier)node1.getIdentifier();
 			String namVal = node2.getId().getText().trim();
 			if(!symtable.containVariable(namVal)){
-				log("ERROR : Variable " + namVal + " mentionded on the left side of multiplication is undefined Line :: " , node2.getId().getLine());
+				log("ERROR : Variable " + namVal + " mentionded on the left side of multiplication is undefined" , node2.getId().getLine());
 			}
+			if(!symtable.getVar().get(node2.getId().getText().trim()).getType().equalsIgnoreCase("int"))log("ERROR : Variable " + namVal + " mentionded on the left side of multiplication has a wrong type " , node2.getId().getLine());
 		}	//check add() + 3 * 5
 		
 		if(node.getRight() instanceof AValueExpression){
@@ -85,8 +91,9 @@ public class PostVisitor extends DepthFirstAdapter
 			AIdIdentifier node2 = (AIdIdentifier)node1.getIdentifier();
 			String namVal = node2.getId().getText().trim();
 			if(!symtable.containVariable(namVal)){
-				log("ERROR : Variable " + namVal + " mentionded on the left side of multiplication is undefined Line :: " , node2.getId().getLine());
-			}
+				log("ERROR : Variable " + namVal + " mentionded on the left side of multiplication is undefined" , node2.getId().getLine());
+			}else
+			if(!symtable.getVar().get(node2.getId().getText().trim()).getType().equalsIgnoreCase("int"))log("ERROR : Variable " + namVal + " mentionded on the left side of multiplication has a wrong type " , node2.getId().getLine());
 		}
 	}
 	

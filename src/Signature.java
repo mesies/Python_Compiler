@@ -1,7 +1,9 @@
+import java.util.Arrays;
 
 public class Signature {
 	String name = "null";
 	int noOfArguments = -1;
+	String[] typeOfargs;
 	public String getName() {
 		return name;
 	}
@@ -19,9 +21,23 @@ public class Signature {
 		this.name = name;
 		this.noOfArguments = noOfArguments;
 	}
+	
+	public Signature(String name, String[] typeOfargs, int noOfArguments) {
+		this.name = name;
+		this.noOfArguments = noOfArguments;
+		this.typeOfargs = Arrays.copyOf(typeOfargs, noOfArguments);
+	}
+	
 	public Signature(){
 		
 	}
+	public String[] getTypeOfargs() {
+		return typeOfargs;
+	}
+	public void setTypeOfargs(String[] typeOfargs) {
+		this.typeOfargs = typeOfargs;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

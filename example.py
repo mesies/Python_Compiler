@@ -1,4 +1,4 @@
-def x(x='kappalord',aa=1):
+def x(x="kappalord",aa=1, y, f = 'fd'):  #tsekare otan kai sta 2 orismata vazeis mona autakia
 	aa = 'keppo'
 	return kappa
 
@@ -27,12 +27,21 @@ while kappa==1:
 	
 x =  13 + (k * 3) * 5 + 'str'
 
-if q == m:				#ckeck an if 
+if q == getList():				#ckeck an if 
 	print ++f
 
 x += 2 + y
 
+x= add(x, y) + 2
+t = "fdfd"
 print t
-print ++t
+print ++c
 print t++
 print add()
+
+def add(x):
+ print x++
+ return x
+ 
+def getList():
+	return myList
